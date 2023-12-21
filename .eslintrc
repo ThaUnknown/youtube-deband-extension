@@ -1,0 +1,22 @@
+{
+  "globals": {
+    "launchQueue": "readonly",
+    "FileSystemHandle": "readonly",
+    "FileSystemFileHandle": "readonly",
+    "FileSystemDirectoryHandle": "readonly",
+    "FileSystemWritableFileStream": "readonly",
+    "ClipboardItem": "readonly",
+    "queryLocalFonts": "readonly",
+    "chrome": "readonly"
+  },
+  "env": {
+    "es2022": true,
+    "browser": true,
+    "worker": true,
+    "node": true,
+    "serviceworker": true
+  },
+  "extends": ["standard"],
+  "parser": "@typescript-eslint/parser",
+  "ignorePatterns": ["*.min.*", "*.build.*"]
+}
