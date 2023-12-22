@@ -28,15 +28,15 @@ function updateDebandStatus (enabled) {
   /** @type {HTMLVideoElement} */
   const video = document.querySelector('video.html5-main-video')
   if (video) {
-    if (!document.body.contains(deband?.canvas) || currentVideo !== video) {
+    if (!document.body.contains(deband?.canvas) || !video.isSameNode(currentVideo)) {
       currentVideo = video
       if (deband) deband.destroy()
-      deband = new VideoDeband(video)
+      const newDeband = deband = new VideoDeband(video)
       video.after(deband.canvas)
       video.style.opacity = '0'
       deband.canvas.style.position = 'absolute'
       const resize = new MutationObserver(() => {
-        if (deband.destroyed) return resize.disconnect()
+        if (newDeband.destroyed) return resize.disconnect()
         updateCanvasSize(video)
       })
       resize.observe(video, { attributes: true })
