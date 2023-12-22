@@ -10,6 +10,7 @@ let currentVideo = null
 
 function updateCanvasSize (video) {
   if (!deband?.canvas) return
+  if (video.style.top.startsWith('-')) return
   deband.canvas.style.top = video.style.top
   deband.canvas.style.left = video.style.left
   deband.canvas.style.width = video.style.width
@@ -32,6 +33,7 @@ function updateDebandStatus (enabled) {
       if (deband) deband.destroy()
       deband = new VideoDeband(video)
       video.after(deband.canvas)
+      video.style.opacity = '0'
       deband.canvas.style.position = 'absolute'
       const resize = new MutationObserver(() => {
         if (deband.destroyed) return resize.disconnect()
