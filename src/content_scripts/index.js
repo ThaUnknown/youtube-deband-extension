@@ -33,11 +33,11 @@ function updateDebandStatus (enabled) {
       deband = new VideoDeband(video)
       video.after(deband.canvas)
       deband.canvas.style.position = 'absolute'
-      const resize = new ResizeObserver(() => {
+      const resize = new MutationObserver(() => {
         if (deband.destroyed) return resize.disconnect()
         updateCanvasSize(video)
       })
-      resize.observe(video)
+      resize.observe(video, { attributes: true })
       updateCanvasSize(video)
     }
   }
@@ -48,5 +48,5 @@ window.onload = () => {
   const observer = new MutationObserver(() => {
     getStorage(CHROME_SYNC_STORAGE_KEY, ({ enabled }) => updateDebandStatus(enabled))
   })
-  observer.observe(document.body, { subtree: false, childList: true, attributes: false })
+  observer.observe(document.body, { childList: true })
 }
