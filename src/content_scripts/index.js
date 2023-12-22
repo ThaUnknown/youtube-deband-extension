@@ -22,6 +22,9 @@ function updateDebandStatus (enabled) {
     if (deband) {
       deband.destroy()
       deband.canvas.remove()
+      if (currentVideo) currentVideo.style.opacity = '1'
+      currentVideo = null
+      deband = null
     }
     return
   }
