@@ -8,6 +8,14 @@ let deband = null
 /** @type {HTMLVideoElement} */
 let currentVideo = null
 
+function updateCanvasSize (video) {
+  if (!deband?.canvas) return
+  deband.canvas.style.top = video.style.top
+  deband.canvas.style.left = video.style.left
+  deband.canvas.style.width = video.style.width
+  deband.canvas.style.height = video.style.height
+}
+
 function updateDebandStatus (enabled) {
   if (!enabled) {
     if (deband) {
@@ -26,19 +34,16 @@ function updateDebandStatus (enabled) {
       video.after(deband.canvas)
       deband.canvas.style.position = 'absolute'
       const resize = new ResizeObserver(() => {
-        deband.canvas.style.top = video.style.top
-        deband.canvas.style.left = video.style.left
-        deband.canvas.style.width = video.style.width
-        deband.canvas.style.height = video.style.height
+        if (deband.destroyed) return resize.disconnect()
+        updateCanvasSize(video)
       })
       resize.observe(video)
-      console.log(deband)
+      updateCanvasSize(video)
     }
   }
 }
 
-window.onload = function () {
-  console.log('Brazzers deband LOADED')
+window.onload = () => {
   chrome.runtime.onMessage.addListener(({ enabled }) => updateDebandStatus(enabled))
   const observer = new MutationObserver(() => {
     getStorage(CHROME_SYNC_STORAGE_KEY, ({ enabled }) => updateDebandStatus(enabled))
