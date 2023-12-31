@@ -36,7 +36,7 @@ function updateDebandStatus (enabled) {
       if (deband) deband.destroy()
       const newDeband = deband = new VideoDeband(video)
       video.after(deband.canvas)
-      video.style.opacity = '0'
+      video.style.opacity = '0.1'
       deband.canvas.style.position = 'absolute'
       const resize = new MutationObserver(() => {
         if (newDeband.destroyed) return resize.disconnect()
